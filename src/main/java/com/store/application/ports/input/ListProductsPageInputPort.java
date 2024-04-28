@@ -4,6 +4,6 @@ import com.store.application.domain.Product;
 
 import java.util.List;
 
-public interface ListProductsInputPort {
+public interface ListProductsPageInputPort {
     List<Product> list();
 }

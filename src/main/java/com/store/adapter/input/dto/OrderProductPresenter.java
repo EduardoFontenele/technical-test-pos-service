@@ -11,6 +11,6 @@ import java.math.BigDecimal;
 @Builder
 public class OrderProductPresenter {
     private String name;
-    private BigDecimal price;
+    private String price;
     private Integer orderedQuantity;
 }

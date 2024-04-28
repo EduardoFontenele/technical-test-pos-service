@@ -54,12 +54,12 @@ public abstract class ProductMapper {
     public abstract ProductPresenter toProductPresenterDTO(Product product);
 
     @Mapping(target = "name", source = "name")
-    @Mapping(target = "price", source = "price")
+    @Mapping(target = "price", source = "price", qualifiedByName = "formatPrice")
     @Mapping(target = "orderedQuantity", source = "orderedQuantity")
     public abstract OrderProductPresenter toOrderProductPresenter(Product product);
 
     @Named("formatPrice")
-    protected String formatPrice(BigDecimal price) {
+    public String formatPrice(BigDecimal price) {
         NumberFormat format = NumberFormat.getCurrencyInstance(Locale.US);
         format.setMinimumFractionDigits(2);
         return format.format(price);

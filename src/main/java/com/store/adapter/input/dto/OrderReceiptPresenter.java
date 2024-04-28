@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor(force = true)
 @Builder
 public class OrderReceiptPresenter {
-    private BigDecimal finalPrice;
+    private String finalPrice;
     private BigDecimal totalSaved;
     private List<OrderProductPresenter> orderedProducts;
 }

@@ -11,5 +11,5 @@ public interface ProductClient {
     ResponseEntity<String> getAllProducts();
 
     @GetMapping("/{productId}")
-    ResponseEntity<String> getProductWithAvailablePromotions(@PathVariable String productId);
+    ResponseEntity<String> getProductFullInformationById(@PathVariable String productId);
 }

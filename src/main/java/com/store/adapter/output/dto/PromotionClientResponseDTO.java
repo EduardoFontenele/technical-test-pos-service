@@ -5,16 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductClientResponseDTO {
+public class PromotionClientResponseDTO {
     private String id;
-    private String name;
-    private BigDecimal price;
-    private List<PromotionClientResponseDTO> promotions;
+    private String type;
+    private Integer requiredQty;
+    private Integer freeQty;
+    private Integer amount;
 }

@@ -24,4 +24,16 @@ public final class JsonUtils {
             return null;
         }
     }
+
+    public static ProductClientResponseDTO toProductClientResponse(String json) {
+        try {
+            if (json == null || json.isEmpty()) {
+                return null;
+            }
+            return objectMapper.readValue(json, ProductClientResponseDTO.class);
+        } catch (IOException e) {
+            log.error("Error parsing JSON to ProductClientResponseDTO: {}", e.getMessage());
+            return null;
+        }
+    }
 }

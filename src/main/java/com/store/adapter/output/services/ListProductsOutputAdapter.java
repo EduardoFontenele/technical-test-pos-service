@@ -5,7 +5,6 @@ import com.store.adapter.output.clients.ProductClient;
 import com.store.adapter.output.dto.ProductClientResponseDTO;
 import com.store.application.domain.Product;
 import com.store.application.ports.output.ListProductsOutputPort;
-import com.store.config.User;
 import com.store.utils.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

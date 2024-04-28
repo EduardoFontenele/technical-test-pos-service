@@ -1,6 +1,6 @@
 package com.store.adapter.mapper;
 
-import com.store.adapter.input.dto.ProductPresenterDTO;
+import com.store.adapter.input.dto.ProductPresenter;
 import com.store.adapter.output.dto.ProductClientResponseDTO;
 import com.store.application.domain.Product;
 import org.mapstruct.Mapper;
@@ -29,7 +29,7 @@ public abstract class ProductMapper {
     @Mapping(target = "id", source = "id")
     @Mapping(target = "name", source = "name")
     @Mapping(target = "price", source = "price", qualifiedByName = "formatPrice")
-    public abstract ProductPresenterDTO toProductPresenterDTO(Product product);
+    public abstract ProductPresenter toProductPresenterDTO(Product product);
 
     @Named("formatPrice")
     protected String formatPrice(BigDecimal price) {

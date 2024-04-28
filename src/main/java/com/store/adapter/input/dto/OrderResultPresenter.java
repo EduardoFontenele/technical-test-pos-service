@@ -7,7 +7,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class OrderDTO {
-    private String productId;
-    private Integer quantity;
+public class OrderResultPresenter {
+    private String customer;
 }

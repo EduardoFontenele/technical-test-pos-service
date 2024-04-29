@@ -1,11 +1,14 @@
 package com.store.application.domain;
 
+import java.math.BigDecimal;
+
 public class Promotion {
     private String id;
     private String type;
     private Integer requiredQty;
     private Integer freeQty;
     private Integer amount;
+    private BigDecimal price;
 
     public Promotion() {}
 
@@ -47,5 +50,13 @@ public class Promotion {
 
     public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

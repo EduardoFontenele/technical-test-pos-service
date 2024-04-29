@@ -2,7 +2,6 @@ package com.store.adapter.input.dto;
 
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
@@ -11,8 +10,8 @@ import java.util.List;
 @NoArgsConstructor(force = true)
 @Builder
 public class OrderReceiptPresenter {
-    private String finalPrice;
+    private String priceWithoutDiscount;
     private String priceWithDiscount;
-    private String totalSaved;
+    private String moneySaved;
     private List<OrderProductPresenter> orderedProducts;
 }

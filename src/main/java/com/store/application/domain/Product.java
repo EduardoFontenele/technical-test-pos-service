@@ -7,7 +7,7 @@ public class Product {
     private String id;
     private String name;
     private BigDecimal price;
-    private Integer orderedQuantity;
+    private int orderedQuantity;
     private List<Promotion> promotions;
 
 

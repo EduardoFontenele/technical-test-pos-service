@@ -60,6 +60,7 @@ public abstract class ProductMapper {
 
     @Mapping(target = "name", source = "name")
     @Mapping(target = "price", source = "price", qualifiedByName = "formatPrice")
+    @Mapping(target = "promoApplied", source = "promoApplied")
     @Mapping(target = "orderedQuantity", source = "orderedQuantity")
     public abstract OrderProductPresenter toOrderProductPresenter(Product product);
 

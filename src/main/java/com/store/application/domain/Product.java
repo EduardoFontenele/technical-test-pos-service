@@ -9,7 +9,7 @@ public class Product {
     private BigDecimal price;
     private int orderedQuantity;
     private List<Promotion> promotions;
-
+    private String promoApplied;
 
     public Product() {
     }
@@ -52,5 +52,13 @@ public class Product {
 
     public void setOrderedQuantity(Integer orderedQuantity) {
         this.orderedQuantity = orderedQuantity;
+    }
+
+    public String getPromoApplied() {
+        return promoApplied;
+    }
+
+    public void setPromoApplied(String promoApplied) {
+        this.promoApplied = promoApplied;
     }
 }

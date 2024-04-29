@@ -3,6 +3,7 @@ package com.store.application.usecases;
 import com.store.application.domain.OrderReceipt;
 import com.store.application.domain.Product;
 import com.store.application.domain.Promotion;
+import com.store.application.domain.PromotionType;
 import com.store.application.ports.input.FindProductFullInformationOutputPort;
 import com.store.application.ports.input.ProcessOrderInputPort;
 
@@ -35,6 +36,7 @@ public class ProcessOrderUseCase implements ProcessOrderInputPort {
 
             if (promotion.isEmpty()) {
                 totalPriceOfOrderWithoutDiscount = totalPriceOfOrderWithoutDiscount.add(foundProduct.getPrice().multiply(new BigDecimal(orderedProduct.getOrderedQuantity())));
+                foundProduct.setPromoApplied("N/A");
             }
 
             if (promotion.isPresent()) {
@@ -48,6 +50,7 @@ public class ProcessOrderUseCase implements ProcessOrderInputPort {
                     totalPriceOfOrderWithoutDiscount = totalPriceOfOrderWithoutDiscount.add(priceOfProductMultipliedByQuantity);
                     totalPriceOfOrderWithDiscount = totalPriceOfOrderWithDiscount.add(priceOfProductsWithDiscount);
                     savedMoney = savedMoney.add(priceOfProductMultipliedByQuantity.subtract(priceOfProductsWithDiscount)).setScale(2, RoundingMode.UP);
+                    foundProduct.setPromoApplied(PromotionType.FLAT_PERCENT.getValue().replace("[percent]", foundPromotion.getAmount().toString()));
                 }
 
                 if (foundPromotion.getType().equals("BUY_X_GET_Y_FREE")) {
@@ -63,6 +66,9 @@ public class ProcessOrderUseCase implements ProcessOrderInputPort {
                         totalPriceOfOrderWithoutDiscount = totalPriceOfOrderWithoutDiscount.add(priceOfProductMultipliedByQuantity);
                         totalPriceOfOrderWithDiscount = totalPriceOfOrderWithDiscount.add(priceOfProductMultipliedByQuantity);
                     }
+
+                    foundProduct.setPromoApplied(
+                            PromotionType.BUY_X_GET_Y_FREE.getValue().replace("[required_quantity]", foundPromotion.getRequiredQty().toString()));
                 }
 
                 // Ok, I kind of didn't understand the business logic here. I think that the first two products will have the same prices, which
@@ -92,6 +98,11 @@ public class ProcessOrderUseCase implements ProcessOrderInputPort {
                         totalPriceOfOrderWithoutDiscount = totalPriceOfOrderWithDiscount.add(foundProduct.getPrice());
                         totalPriceOfOrderWithDiscount = totalPriceOfOrderWithDiscount.add(foundProduct.getPrice());
                     }
+
+                    foundProduct.setPromoApplied(
+                            PromotionType.QTY_BASED_PRICE_OVERRIDE.getValue().replace("[required_quantity]", foundPromotion.getRequiredQty().toString())
+                                    .replace("[price]", foundPromotion.getPrice().toString())
+                    );
                 }
 
             }
@@ -107,6 +118,4 @@ public class ProcessOrderUseCase implements ProcessOrderInputPort {
 
         return orderReceipt;
     }
-
-
 }

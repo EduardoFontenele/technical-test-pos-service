@@ -17,7 +17,8 @@ public abstract class OrderMapper {
         OrderReceiptPresenter orderReceiptPresenter = new OrderReceiptPresenter();
 
         orderReceiptPresenter.setFinalPrice(productMapper.formatPrice(orderReceipt.getFinalPrice()));
-        orderReceiptPresenter.setTotalSaved(orderReceipt.getTotalSaved());
+        orderReceiptPresenter.setPriceWithDiscount(productMapper.formatPrice(orderReceipt.getPriceWithDiscount()));
+        orderReceiptPresenter.setTotalSaved(productMapper.formatPrice(orderReceipt.getTotalSaved()));
 
         List<OrderProductPresenter> orderedProducts = orderReceipt.getOrderedProducts().stream()
                 .map(productMapper::toOrderProductPresenter)

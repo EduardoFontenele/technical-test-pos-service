@@ -5,6 +5,7 @@ import java.util.List;
 
 public class OrderReceipt {
     private BigDecimal finalPrice;
+    private BigDecimal priceWithDiscount;
     private BigDecimal totalSaved;
     private List<Product> orderedProducts;
 
@@ -33,5 +34,13 @@ public class OrderReceipt {
 
     public void setOrderedProducts(List<Product> orderedProducts) {
         this.orderedProducts = orderedProducts;
+    }
+
+    public BigDecimal getPriceWithDiscount() {
+        return priceWithDiscount;
+    }
+
+    public void setPriceWithDiscount(BigDecimal priceWithDiscount) {
+        this.priceWithDiscount = priceWithDiscount;
     }
 }

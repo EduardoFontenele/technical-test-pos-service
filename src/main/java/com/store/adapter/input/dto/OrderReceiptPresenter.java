@@ -12,6 +12,7 @@ import java.util.List;
 @Builder
 public class OrderReceiptPresenter {
     private String finalPrice;
-    private BigDecimal totalSaved;
+    private String priceWithDiscount;
+    private String totalSaved;
     private List<OrderProductPresenter> orderedProducts;
 }

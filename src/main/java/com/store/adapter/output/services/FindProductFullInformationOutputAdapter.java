@@ -30,7 +30,6 @@ public class FindProductFullInformationOutputAdapter implements FindProductFullI
             ProductClientResponseDTO productDto = JsonUtils.toProductClientResponse(clientResponse.getBody());
             return productMapper.toProductWithPromotions(productDto);
         } catch (Exception ex) {
-            log.error(ex.getMessage());
             throw new RuntimeException(ex.getMessage());
         }
     }

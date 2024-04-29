@@ -5,7 +5,6 @@ import com.store.adapter.input.dto.OrderReceiptPresenter;
 import com.store.adapter.input.dto.ProductPresenter;
 import com.store.adapter.mapper.OrderMapper;
 import com.store.adapter.mapper.ProductMapper;
-import com.store.application.domain.OrderItem;
 import com.store.application.domain.OrderReceipt;
 import com.store.application.domain.Product;
 import com.store.application.ports.input.ListProductsPageInputPort;

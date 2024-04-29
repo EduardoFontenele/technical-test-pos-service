@@ -50,7 +50,7 @@ public class ProcessOrderUseCase implements ProcessOrderInputPort {
                     totalPriceOfOrderWithoutDiscount = totalPriceOfOrderWithoutDiscount.add(priceOfProductMultipliedByQuantity);
                     totalPriceOfOrderWithDiscount = totalPriceOfOrderWithDiscount.add(priceOfProductsWithDiscount);
                     savedMoney = savedMoney.add(priceOfProductMultipliedByQuantity.subtract(priceOfProductsWithDiscount)).setScale(2, RoundingMode.UP);
-                    foundProduct.setPromoApplied(PromotionType.FLAT_PERCENT.getValue().replace("[percent]", foundPromotion.getAmount().toString()));
+                    foundProduct.setPromoApplied(PromotionType.FLAT_PERCENT.getDescription().replace("[percent]", foundPromotion.getAmount().toString()));
                 }
 
                 if (foundPromotion.getType().equals("BUY_X_GET_Y_FREE")) {
@@ -68,7 +68,7 @@ public class ProcessOrderUseCase implements ProcessOrderInputPort {
                     }
 
                     foundProduct.setPromoApplied(
-                            PromotionType.BUY_X_GET_Y_FREE.getValue().replace("[required_quantity]", foundPromotion.getRequiredQty().toString()));
+                            PromotionType.BUY_X_GET_Y_FREE.getDescription().replace("[required_quantity]", foundPromotion.getRequiredQty().toString()));
                 }
 
                 // Ok, I kind of didn't understand the business logic here. I think that the first two products will have the same prices, which
@@ -100,7 +100,7 @@ public class ProcessOrderUseCase implements ProcessOrderInputPort {
                     }
 
                     foundProduct.setPromoApplied(
-                            PromotionType.QTY_BASED_PRICE_OVERRIDE.getValue().replace("[required_quantity]", foundPromotion.getRequiredQty().toString())
+                            PromotionType.QTY_BASED_PRICE_OVERRIDE.getDescription().replace("[required_quantity]", foundPromotion.getRequiredQty().toString())
                                     .replace("[price]", foundPromotion.getPrice().toString())
                     );
                 }

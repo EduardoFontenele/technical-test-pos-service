@@ -1,13 +1,17 @@
 package com.store.adapter.output.services;
 
+import com.store.adapter.exception.BusinessException;
+import com.store.adapter.exception.ExceptionsEnum;
 import com.store.adapter.mapper.ProductMapper;
 import com.store.adapter.output.clients.ProductClient;
 import com.store.adapter.output.dto.ProductClientResponseDTO;
 import com.store.application.domain.Product;
 import com.store.application.ports.input.FindProductFullInformationOutputPort;
 import com.store.utils.JsonUtils;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +21,6 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 @Slf4j
 public class FindProductFullInformationOutputAdapter implements FindProductFullInformationOutputPort {
-
     private final ProductClient productClient;
     private final ProductMapper productMapper = ProductMapper.INSTANCE;
 
@@ -29,8 +32,12 @@ public class FindProductFullInformationOutputAdapter implements FindProductFullI
 
             ProductClientResponseDTO productDto = JsonUtils.toProductClientResponse(clientResponse.getBody());
             return productMapper.toProductWithPromotions(productDto);
-        } catch (Exception ex) {
-            throw new RuntimeException(ex.getMessage());
+        } catch (FeignException ex) {
+            if (ex.getMessage().contains("404")) {
+                throw new BusinessException(ExceptionsEnum.INVALID_PRODUCT_ID, productId);
+            } else {
+                throw new BusinessException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+            }
         }
     }
 }

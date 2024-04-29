@@ -37,7 +37,7 @@ public class ProductsController {
     public ResponseEntity<OrderReceiptPresenter> orderMeal(@RequestBody List<OrderProductDTO> orderProductDTOList) {
         List<Product> orderedProducts = orderProductDTOList.stream().map(productMapper::toProduct).toList();
         OrderReceipt orderReceipt = processOrderInputPort.process(orderedProducts);
-        OrderReceiptPresenter orderReceiptPresenter = orderMapper.toOrderResultPresenter(orderReceipt);
+        OrderReceiptPresenter orderReceiptPresenter = OrderMapper.toOrderResultPresenter(orderReceipt);
 
         return ResponseEntity.ok(orderReceiptPresenter);
     }

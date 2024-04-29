@@ -2,6 +2,7 @@ package com.store.utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.store.adapter.exception.ExceptionsEnum;
 import com.store.adapter.output.dto.ProductClientResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,7 +22,7 @@ public final class JsonUtils {
             return objectMapper.readValue(json, new TypeReference<>() {});
         } catch (IOException e) {
             log.error(e.getMessage());
-            return null;
+            throw new RuntimeException(ExceptionsEnum.IO_EXCEPTION.getMessage().replace("{}", e.getMessage()));
         }
     }
 

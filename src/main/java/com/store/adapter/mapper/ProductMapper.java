@@ -7,6 +7,7 @@ import com.store.adapter.output.dto.ProductClientResponseDTO;
 import com.store.adapter.output.dto.PromotionClientResponseDTO;
 import com.store.application.domain.Product;
 import com.store.application.domain.Promotion;
+import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

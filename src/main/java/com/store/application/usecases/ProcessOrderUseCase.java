@@ -71,17 +71,9 @@ public class ProcessOrderUseCase implements ProcessOrderInputPort {
                             PromotionType.BUY_X_GET_Y_FREE.getDescription().replace("[required_quantity]", foundPromotion.getRequiredQty().toString()));
                 }
 
-                // Ok, I kind of didn't understand the business logic here. I think that the first two products will have the same prices, which
-                // is the price in the promotions. But apart from them, the rest will be calculated normally. So that's what I did.
-                if (foundPromotion.getType().equals("QTY_BASED_PRICE_OVERRIDE")) {
-                    if (foundProduct.getOrderedQuantity().equals(foundPromotion.getRequiredQty())) {
-                        BigDecimal priceOfProductMultipliedByQuantity = foundProduct.getPrice().multiply(new BigDecimal(foundProduct.getOrderedQuantity()));
-                        BigDecimal priceOfProductWithDiscount = foundPromotion.getPrice();
 
-                        totalPriceOfOrderWithoutDiscount = totalPriceOfOrderWithDiscount.add(priceOfProductMultipliedByQuantity);
-                        totalPriceOfOrderWithDiscount = totalPriceOfOrderWithDiscount.add(priceOfProductWithDiscount);
-                        savedMoney = savedMoney.add(totalPriceOfOrderWithoutDiscount.subtract(totalPriceOfOrderWithDiscount));
-                    } else if (foundProduct.getOrderedQuantity() > foundPromotion.getRequiredQty()) {
+                if (foundPromotion.getType().equals("QTY_BASED_PRICE_OVERRIDE")) {
+                    if (foundProduct.getOrderedQuantity() >= foundPromotion.getRequiredQty()) {
                         BigDecimal priceOfProductMultipliedByQuantityWithPromo = foundProduct.getPrice()
                                 .multiply(new BigDecimal(foundProduct.getOrderedQuantity() - foundPromotion.getRequiredQty()));
 

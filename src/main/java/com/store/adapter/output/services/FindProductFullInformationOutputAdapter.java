@@ -31,6 +31,9 @@ public class FindProductFullInformationOutputAdapter implements FindProductFullI
             if (clientResponse.getBody() == null) throw new NoSuchElementException("Product doesn't exist or ID is wrong");
 
             ProductClientResponseDTO productDto = JsonUtils.toProductClientResponse(clientResponse.getBody());
+            if (productDto != null && null == productDto.getPrice())
+                throw new BusinessException(HttpStatus.INTERNAL_SERVER_ERROR, "Required field {} is null".replace("{}", "'price'"));
+
             return productMapper.toProductWithPromotions(productDto);
         } catch (FeignException ex) {
             if (ex.getMessage().contains("404")) {

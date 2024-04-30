@@ -3,6 +3,7 @@ package com.store.application.usecases;
 import com.store.application.domain.OrderReceipt;
 import com.store.application.domain.Product;
 import com.store.application.domain.Promotion;
+import com.store.application.domain.PromotionType;
 import com.store.application.ports.input.FindProductFullInformationOutputPort;
 import com.store.application.ports.input.ProcessOrderInputPort;
 
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ProcessOrderUseCase implements ProcessOrderInputPort {
 
@@ -21,51 +23,85 @@ public class ProcessOrderUseCase implements ProcessOrderInputPort {
 
     @Override
     public OrderReceipt process(List<Product> orderedProducts) {
-        BigDecimal totalPriceWithoutDiscount = BigDecimal.ZERO;
-        BigDecimal totalPriceWithDiscount = BigDecimal.ZERO;
-        BigDecimal totalSaved = BigDecimal.ZERO;
-        List<Product> processedProducts = new ArrayList<>();
+        BigDecimal totalPriceOfOrderWithoutDiscount = new BigDecimal(0);
+        BigDecimal totalPriceOfOrderWithDiscount = new BigDecimal(0);
+        BigDecimal savedMoney = new BigDecimal(0);
+        List<Product> foundProducts = new ArrayList<>();
 
         for (Product orderedProduct : orderedProducts) {
-            Product product = findProductFullInformationOutputPort.findProduct(orderedProduct.getId());
-            product.setOrderedQuantity(orderedProduct.getOrderedQuantity());
+            Product foundProduct = findProductFullInformationOutputPort.findProduct(orderedProduct.getId());
+            foundProduct.setOrderedQuantity(orderedProduct.getOrderedQuantity());
 
-            Promotion promotion = product.getPromotions().stream().findFirst().orElse(null);
+            Optional<Promotion> promotion = foundProduct.getPromotions().stream().findFirst();
 
-            BigDecimal productTotalPrice = product.getPrice().multiply(BigDecimal.valueOf(product.getOrderedQuantity()));
-            totalPriceWithoutDiscount = totalPriceWithoutDiscount.add(productTotalPrice).setScale(2, RoundingMode.HALF_UP);
-
-            if (promotion != null) {
-                BigDecimal discountedPrice = calculateDiscountedPrice(product, promotion);
-                totalPriceWithDiscount = totalPriceWithDiscount.add(discountedPrice).setScale(2, RoundingMode.HALF_UP);
-                totalSaved = totalSaved.add(productTotalPrice.subtract(discountedPrice)).setScale(2, RoundingMode.HALF_UP);
-            } else {
-                totalPriceWithDiscount = totalPriceWithDiscount.add(productTotalPrice).setScale(2, RoundingMode.HALF_UP);
+            if (promotion.isEmpty()) {
+                totalPriceOfOrderWithoutDiscount = totalPriceOfOrderWithoutDiscount.add(foundProduct.getPrice().multiply(new BigDecimal(orderedProduct.getOrderedQuantity())));
+                foundProduct.setPromoApplied("N/A");
             }
 
-            processedProducts.add(product);
+            if (promotion.isPresent()) {
+                Promotion foundPromotion = promotion.get();
+
+                if (foundPromotion.getType().equals("FLAT_PERCENT")) {
+                    double discountAppliedInPercent = (double) (100 - foundPromotion.getAmount()) / 100;
+                    BigDecimal priceOfProductMultipliedByQuantity = foundProduct.getPrice().multiply(new BigDecimal(foundProduct.getOrderedQuantity()));
+                    BigDecimal priceOfProductsWithDiscount = priceOfProductMultipliedByQuantity.multiply(new BigDecimal(discountAppliedInPercent));
+
+                    totalPriceOfOrderWithoutDiscount = totalPriceOfOrderWithoutDiscount.add(priceOfProductMultipliedByQuantity);
+                    totalPriceOfOrderWithDiscount = totalPriceOfOrderWithDiscount.add(priceOfProductsWithDiscount);
+                    savedMoney = savedMoney.add(priceOfProductMultipliedByQuantity.subtract(priceOfProductsWithDiscount)).setScale(2, RoundingMode.UP);
+                    foundProduct.setPromoApplied(PromotionType.FLAT_PERCENT.getDescription().replace("[percent]", foundPromotion.getAmount().toString()));
+                }
+
+                if (foundPromotion.getType().equals("BUY_X_GET_Y_FREE")) {
+                    BigDecimal priceOfProductMultipliedByQuantity = foundProduct.getPrice().multiply(new BigDecimal(foundProduct.getOrderedQuantity()));
+
+                    if (foundProduct.getOrderedQuantity() >= foundPromotion.getRequiredQty()) {
+                        BigDecimal priceOfProductsWithDiscount = priceOfProductMultipliedByQuantity.subtract(foundProduct.getPrice());
+
+                        totalPriceOfOrderWithoutDiscount = totalPriceOfOrderWithoutDiscount.add(priceOfProductMultipliedByQuantity);
+                        savedMoney = savedMoney.add(foundProduct.getPrice());
+                        totalPriceOfOrderWithDiscount = totalPriceOfOrderWithDiscount.add(priceOfProductsWithDiscount);
+                    } else {
+                        totalPriceOfOrderWithoutDiscount = totalPriceOfOrderWithoutDiscount.add(priceOfProductMultipliedByQuantity);
+                        totalPriceOfOrderWithDiscount = totalPriceOfOrderWithDiscount.add(priceOfProductMultipliedByQuantity);
+                    }
+
+                    foundProduct.setPromoApplied(
+                            PromotionType.BUY_X_GET_Y_FREE.getDescription().replace("[required_quantity]", foundPromotion.getRequiredQty().toString()));
+                }
+
+
+                if (foundPromotion.getType().equals("QTY_BASED_PRICE_OVERRIDE")) {
+                    if (foundProduct.getOrderedQuantity() >= foundPromotion.getRequiredQty()) {
+                        BigDecimal priceOfProductMultipliedByQuantityWithPromo = foundProduct.getPrice()
+                                .multiply(new BigDecimal(foundProduct.getOrderedQuantity() - foundPromotion.getRequiredQty()));
+
+                        BigDecimal priceOfProductMultipliedByQuantityWithoutPromo = foundProduct.getPrice()
+                                .multiply(new BigDecimal(foundProduct.getOrderedQuantity()));
+
+                        savedMoney = savedMoney.add(
+                                foundProduct.getPrice().multiply(new BigDecimal(foundPromotion.getRequiredQty()))
+                                        .subtract(foundPromotion.getPrice()));
+
+                        totalPriceOfOrderWithoutDiscount = totalPriceOfOrderWithDiscount.add(priceOfProductMultipliedByQuantityWithoutPromo);
+                        totalPriceOfOrderWithDiscount = totalPriceOfOrderWithDiscount.add(priceOfProductMultipliedByQuantityWithPromo.add(foundPromotion.getPrice()));
+                    } else {
+                        totalPriceOfOrderWithoutDiscount = totalPriceOfOrderWithDiscount.add(foundProduct.getPrice());
+                        totalPriceOfOrderWithDiscount = totalPriceOfOrderWithDiscount.add(foundProduct.getPrice());
+                    }
+
+                    foundProduct.setPromoApplied(
+                            PromotionType.QTY_BASED_PRICE_OVERRIDE.getDescription().replace("[required_quantity]", foundPromotion.getRequiredQty().toString())
+                                    .replace("[price]", foundPromotion.getPrice().toString())
+                    );
+                }
+
+            }
+
+            foundProducts.add(foundProduct);
         }
 
-        return new OrderReceipt(totalPriceWithoutDiscount, totalPriceWithDiscount, totalSaved, processedProducts);
-    }
-
-    private BigDecimal calculateDiscountedPrice(Product product, Promotion promotion) {
-        BigDecimal productTotalPrice = product.getPrice().multiply(BigDecimal.valueOf(product.getOrderedQuantity()));
-        switch (promotion.getType()) {
-            case "FLAT_PERCENT":
-                return productTotalPrice.multiply(BigDecimal.valueOf(1 - promotion.getAmount() / 100.0)).setScale(2, RoundingMode.HALF_UP);
-            case "BUY_X_GET_Y_FREE":
-                if (product.getOrderedQuantity() >= promotion.getRequiredQty()) {
-                    return productTotalPrice.subtract(product.getPrice()).setScale(2, RoundingMode.HALF_UP);
-                }
-                return productTotalPrice.setScale(2, RoundingMode.HALF_UP);
-            case "QTY_BASED_PRICE_OVERRIDE":
-                if (product.getOrderedQuantity() >= promotion.getRequiredQty()) {
-                    return productTotalPrice.subtract(product.getPrice().multiply(BigDecimal.valueOf(promotion.getRequiredQty()))).add(promotion.getPrice()).setScale(2, RoundingMode.HALF_UP);
-                }
-                return productTotalPrice.setScale(2, RoundingMode.HALF_UP);
-            default:
-                return productTotalPrice.setScale(2, RoundingMode.HALF_UP);
-        }
+        return new OrderReceipt(totalPriceOfOrderWithoutDiscount, totalPriceOfOrderWithDiscount, savedMoney, foundProducts);
     }
 }

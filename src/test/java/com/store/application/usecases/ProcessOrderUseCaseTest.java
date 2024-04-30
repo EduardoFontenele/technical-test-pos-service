@@ -126,7 +126,7 @@ class ProcessOrderUseCaseTest {
 
         assertEquals(new BigDecimal("100.00"), receipt.getFinalPrice());
         assertEquals(new BigDecimal("100.00"), receipt.getPriceWithDiscount());
-        assertEquals(new BigDecimal("0"), receipt.getTotalSaved());
+        assertEquals(new BigDecimal("0.00"), receipt.getTotalSaved());
     }
 
     @Test
@@ -192,6 +192,6 @@ class ProcessOrderUseCaseTest {
 
         assertEquals(new BigDecimal("200.00"), receipt.getFinalPrice());
         assertEquals(new BigDecimal("200.00"), receipt.getPriceWithDiscount());
-        assertEquals(new BigDecimal("0"), receipt.getTotalSaved());
+        assertEquals(new BigDecimal("0.00"), receipt.getTotalSaved());
     }
 }

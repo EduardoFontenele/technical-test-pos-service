@@ -12,6 +12,13 @@ public class OrderReceipt {
     public OrderReceipt() {
     }
 
+    public OrderReceipt(BigDecimal finalPrice, BigDecimal priceWithDiscount, BigDecimal totalSaved, List<Product> orderedProducts) {
+        this.finalPrice = finalPrice;
+        this.priceWithDiscount = priceWithDiscount;
+        this.totalSaved = totalSaved;
+        this.orderedProducts = orderedProducts;
+    }
+
     public BigDecimal getFinalPrice() {
         return this.finalPrice;
     }

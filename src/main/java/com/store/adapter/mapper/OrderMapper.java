@@ -13,7 +13,7 @@ public abstract class OrderMapper {
     public static final OrderMapper INSTANCE = Mappers.getMapper(OrderMapper.class);
     private static final ProductMapper productMapper = ProductMapper.INSTANCE;
 
-    public static OrderReceiptPresenter toOrderResultPresenter(OrderReceipt orderReceipt) {
+    public OrderReceiptPresenter toOrderResultPresenter(OrderReceipt orderReceipt) {
         OrderReceiptPresenter orderReceiptPresenter = new OrderReceiptPresenter();
 
         orderReceiptPresenter.setPriceWithoutDiscount(productMapper.formatPrice(orderReceipt.getFinalPrice()));

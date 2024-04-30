@@ -1,5 +1,7 @@
 package com.store.adapter.input.controller;
 
+import com.store.adapter.exception.BusinessException;
+import com.store.adapter.exception.ExceptionsEnum;
 import com.store.adapter.input.dto.OrderProductDTO;
 import com.store.adapter.input.dto.OrderReceiptPresenter;
 import com.store.adapter.input.dto.ProductPresenter;
@@ -35,9 +37,10 @@ public class ProductsController {
 
     @PostMapping
     public ResponseEntity<OrderReceiptPresenter> orderMeal(@RequestBody List<OrderProductDTO> orderProductDTOList) {
+        if (orderProductDTOList.isEmpty()) throw new BusinessException(ExceptionsEnum.EMPTY_ORDER_REQUEST);
         List<Product> orderedProducts = orderProductDTOList.stream().map(productMapper::toProduct).toList();
         OrderReceipt orderReceipt = processOrderInputPort.process(orderedProducts);
-        OrderReceiptPresenter orderReceiptPresenter = OrderMapper.toOrderResultPresenter(orderReceipt);
+        OrderReceiptPresenter orderReceiptPresenter = orderMapper.toOrderResultPresenter(orderReceipt);
 
         return ResponseEntity.ok(orderReceiptPresenter);
     }

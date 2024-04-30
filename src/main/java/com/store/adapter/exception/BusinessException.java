@@ -8,6 +8,11 @@ public class BusinessException extends RuntimeException{
     private final HttpStatus httpStatus;
     private final String message;
 
+    public BusinessException(ExceptionsEnum exceptionsEnum) {
+        this.message = exceptionsEnum.getMessage();
+        this.httpStatus = exceptionsEnum.getHttpStatus();
+    }
+
     public BusinessException(ExceptionsEnum exceptionsEnum, String item) {
         this.message = exceptionsEnum.getMessage().replace("[item]", item);
         this.httpStatus = exceptionsEnum.getHttpStatus();

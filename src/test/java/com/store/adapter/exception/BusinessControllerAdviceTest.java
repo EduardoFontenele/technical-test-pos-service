@@ -1,8 +1,8 @@
 package com.store.adapter.exception;
 
-import com.store.core.domain.Product;
-import com.store.core.ports.output.ListProductsOutputPort;
-import com.store.core.usecases.ListProductsPageUseCase;
+import com.store.application.core.domain.Product;
+import com.store.application.ports.output.ListProductsOutputPort;
+import com.store.application.core.usecases.ListProductsPageUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

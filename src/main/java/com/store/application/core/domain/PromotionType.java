@@ -1,4 +1,4 @@
-package com.store.core.domain;
+package com.store.application.core.domain;
 
 public enum PromotionType {
     BUY_X_GET_Y_FREE("Buy [required_quantity] or more products, get one completely for free!"),

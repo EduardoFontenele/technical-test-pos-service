@@ -1,8 +1,8 @@
-package com.store.core.usecases;
+package com.store.application.core.usecases;
 
-import com.store.core.domain.Product;
-import com.store.core.ports.input.ListProductsPageInputPort;
-import com.store.core.ports.output.ListProductsOutputPort;
+import com.store.application.core.domain.Product;
+import com.store.application.ports.input.ListProductsPageInputPort;
+import com.store.application.ports.output.ListProductsOutputPort;
 
 import java.util.List;
 

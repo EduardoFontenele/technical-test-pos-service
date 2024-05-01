@@ -2,7 +2,7 @@ package com.store.adapter.output.services;
 
 import com.store.adapter.exception.BusinessException;
 import com.store.adapter.output.clients.ProductClient;
-import com.store.core.domain.Product;
+import com.store.application.core.domain.Product;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

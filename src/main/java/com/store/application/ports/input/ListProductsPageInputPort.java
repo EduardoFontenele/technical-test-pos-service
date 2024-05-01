@@ -1,6 +1,6 @@
-package com.store.core.ports.input;
+package com.store.application.ports.input;
 
-import com.store.core.domain.Product;
+import com.store.application.core.domain.Product;
 
 import java.util.List;
 

@@ -4,10 +4,10 @@ import com.store.adapter.exception.BusinessException;
 import com.store.adapter.input.dto.OrderProductDTO;
 import com.store.adapter.input.dto.OrderReceiptPresenter;
 import com.store.adapter.input.dto.ProductPresenter;
-import com.store.application.domain.OrderReceipt;
-import com.store.application.domain.Product;
-import com.store.application.ports.input.ListProductsPageInputPort;
-import com.store.application.ports.input.ProcessOrderInputPort;
+import com.store.core.domain.OrderReceipt;
+import com.store.core.domain.Product;
+import com.store.core.ports.input.ListProductsPageInputPort;
+import com.store.core.ports.input.ProcessOrderInputPort;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,7 +27,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)

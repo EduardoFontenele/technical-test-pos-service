@@ -1,17 +1,13 @@
-package com.store.application.usecases;
+package com.store.core.usecases;
 
-import com.store.application.domain.OrderReceipt;
-import com.store.application.domain.Product;
-import com.store.application.domain.Promotion;
-import com.store.application.ports.output.ListProductsOutputPort;
+import com.store.core.domain.Product;
+import com.store.core.ports.output.ListProductsOutputPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

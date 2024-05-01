@@ -1,9 +1,9 @@
-package com.store.application.usecases;
+package com.store.core.usecases;
 
-import com.store.application.domain.OrderReceipt;
-import com.store.application.domain.Product;
-import com.store.application.domain.Promotion;
-import com.store.application.ports.input.FindProductFullInformationOutputPort;
+import com.store.core.domain.OrderReceipt;
+import com.store.core.domain.Product;
+import com.store.core.domain.Promotion;
+import com.store.core.ports.input.FindProductFullInformationOutputPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

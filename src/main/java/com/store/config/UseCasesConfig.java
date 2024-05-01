@@ -1,11 +1,11 @@
 package com.store.config;
 
-import com.store.application.ports.input.FindProductFullInformationOutputPort;
-import com.store.application.ports.input.ListProductsPageInputPort;
-import com.store.application.ports.input.ProcessOrderInputPort;
-import com.store.application.ports.output.ListProductsOutputPort;
-import com.store.application.usecases.ListProductsPageUseCase;
-import com.store.application.usecases.ProcessOrderUseCase;
+import com.store.core.ports.input.FindProductFullInformationOutputPort;
+import com.store.core.ports.input.ListProductsPageInputPort;
+import com.store.core.ports.input.ProcessOrderInputPort;
+import com.store.core.ports.output.ListProductsOutputPort;
+import com.store.core.usecases.ListProductsPageUseCase;
+import com.store.core.usecases.ProcessOrderUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

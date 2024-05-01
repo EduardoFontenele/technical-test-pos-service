@@ -1,4 +1,4 @@
-package com.store.application.domain;
+package com.store.core.domain;
 
 import java.math.BigDecimal;
 import java.util.List;

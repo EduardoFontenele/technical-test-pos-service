@@ -5,8 +5,8 @@ import com.store.adapter.input.dto.OrderProductPresenter;
 import com.store.adapter.input.dto.ProductPresenter;
 import com.store.adapter.output.dto.ProductClientResponseDTO;
 import com.store.adapter.output.dto.PromotionClientResponseDTO;
-import com.store.application.domain.Product;
-import com.store.application.domain.Promotion;
+import com.store.core.domain.Product;
+import com.store.core.domain.Promotion;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.store.adapter.mapper.ProductMapper;
 import com.store.adapter.output.clients.ProductClient;
 import com.store.adapter.output.dto.ProductClientResponseDTO;
-import com.store.application.domain.Product;
+import com.store.core.domain.Product;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

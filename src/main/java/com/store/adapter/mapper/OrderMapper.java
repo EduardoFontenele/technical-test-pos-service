@@ -2,7 +2,7 @@ package com.store.adapter.mapper;
 
 import com.store.adapter.input.dto.OrderProductPresenter;
 import com.store.adapter.input.dto.OrderReceiptPresenter;
-import com.store.application.domain.OrderReceipt;
+import com.store.core.domain.OrderReceipt;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
